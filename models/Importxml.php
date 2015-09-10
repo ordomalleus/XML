@@ -64,7 +64,7 @@ class Importxml extends \AbstractModelNews
                 if (isset($value->password)) {
                     $this->password = (string)$value->password;
                 } else {
-                    $this->password - null;
+                    $this->password = null;
                 }
                 if (isset($value->email)) {
                     $this->email = (string)$value->email;
