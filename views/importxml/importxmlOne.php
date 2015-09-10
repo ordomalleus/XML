@@ -31,6 +31,7 @@ header('Content-Type: text/html; charset=utf-8');
                     <p class="well">Обновленно пароллей в базе: <?= $xml['updatePassword'];?></p>
                     <p class="well">Обновленно емайлов в базе: <?= $xml['updateEmail'];?></p>
                     <p class="well">Удаленно из базы: <?= $xml['delBd'];?></p>
+                    <p class="well">Отправка письма:  <?= $mail;?></p>
                 </div>
             </div>
         </div>
