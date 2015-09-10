@@ -149,4 +149,73 @@ abstract class AbstractModelNews
             $this->update();
         }
     }
+
+
+
+    //Поиск по полю и значению, возвращает обект
+    public static function getOneColumnXml($column, $value)
+    {
+        $config = new Config();
+        $db = new PdoSql($config->bd, $config->server, $config->user, $config->password);
+
+        $db->setClassName(get_called_class());
+
+        $query = 'SELECT * FROM ' . static::getTable() . ' WHERE ' . $column . '=:value';
+
+        $res = $db->query($query, [':value' => $value]);
+
+        if (empty($res)) {
+            return false;
+        }
+
+        return $res[0];
+    }
+
+    //Проверка данных в базе
+    public static function countXml($table)
+    {
+        $config = new Config();
+        $db = new PdoSql($config->bd, $config->server, $config->user, $config->password);
+
+        $query = 'SELECT COUNT(*) as cnt from '.$table;
+        $res = $db->query($query);
+
+        return $res[0];
+    }
+
+    //Изменение в бд
+    protected function updateXml($id,$name,$value)
+    {
+
+        $data = [
+            $name => $value,
+            'id' => $id,
+        ];
+        $config = new Config();
+        $db = new PdoSql($config->bd, $config->server, $config->user, $config->password);
+
+        $query = '
+            UPDATE ' . static::$table . '
+            SET ' . $name . '=:' . $name . '
+            WHERE id=:id
+        ';
+
+        return $db->execute($query, $data);
+    }
+
+    //удаление из бд
+    public function deleteXml($id)
+    {
+        $config = new Config();
+        $db = new PdoSql($config->bd, $config->server, $config->user, $config->password);
+
+        $data = ['id' => $id];
+
+        $query = '
+            DELETE FROM ' . static::$table . '
+            WHERE id=:id
+        ';
+
+        return $db->execute($query, $data);
+    }
 }
