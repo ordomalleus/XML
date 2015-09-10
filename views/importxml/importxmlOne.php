@@ -23,13 +23,14 @@ header('Content-Type: text/html; charset=utf-8');
             <div class="col-md-12">
                 <div>
                     <p>Файл</p>
+                    <a class="btn btn-primary" role="button" href="/importxml/addform">Загрузить новый XML</a>
                 </div>
                 <div>
-                    <pre>
-                    <?php
-                        print_r($xml);
-                    ?>
-                    </pre>
+                    <p class="well">Добавленно в базу: <?= $xml['addBd'];?></p>
+                    <p class="well">Обновленно имен в базе: <?= $xml['updateName'];?></p>
+                    <p class="well">Обновленно пароллей в базе: <?= $xml['updatePassword'];?></p>
+                    <p class="well">Обновленно емайлов в базе: <?= $xml['updateEmail'];?></p>
+                    <p class="well">Удаленно из базы: <?= $xml['delBd'];?></p>
                 </div>
             </div>
         </div>

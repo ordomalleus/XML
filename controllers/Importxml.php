@@ -17,7 +17,8 @@ class Importxml
     {
         $file = $_FILES['newXml']['tmp_name'];
         $xml = new ImportxmlModels();
-        $result = $xml->importXml($file);
+        $xml->importXml($file);
+        $result = $xml->getOtchet();
 
         $view = new Views();
         $view->xml = $result;

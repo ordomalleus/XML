@@ -15,24 +15,22 @@ namespace Aplication\Models;
 class Importxml extends \AbstractModelNews
 {
     protected static $table = 'user';
+    private $allBd = 0; //Считает сколько записей добавленно
+    private $nameBd = 0; //Считает сколько имен измененно
+    private $passworsBd = 0; //Считает сколько паролей изменнено
+    private $emailBd = 0; //Считает сколько емайлов изменнено
+    private $delBd = 0; //Считает сколько строк удаленно
+    private $allLogin = []; //собираем все лоигины из файла
+    public $otchet =[]; //собирает отчет для views и почты
 
     //обновление по xml файлу
     public function importXml($files)
     {
         $file = simplexml_load_file($files);
         $userXml = $file->user;
-        $otchet = [];
 
         //проверяем пуста ли база
         $bdCnt = $this->countXml($this->getTable());
-
-        $allBd = 0; //Считает сколько записей добавленно
-        $nameBd = 0; //Считает сколько имен измененно
-        $passworsBd = 0; //Считает сколько паролей изменнено
-        $emailBd = 0; //Считает сколько емайлов изменнено
-        $delBd = 0; //Считает сколько строк удаленно
-
-        $allLogin = []; //собираем все лоигны из файла
 
         if ($bdCnt->cnt == 0) {
             //Если пуста то просто копируем все из файла
@@ -44,9 +42,9 @@ class Importxml extends \AbstractModelNews
                 $this->password = (string)$value->password;
                 $this->email = (string)$value->login . '@example.com';
                 $this->insert();
-                $allBd++;
+                $this->allBd++;
             }
-            $otchet['addBd'] = $allBd;
+
         } else {
             //если не пуста то начинаем добовлять из файла или изменять из файла данные
             //обнуляет значения если их не было в файле
@@ -55,7 +53,7 @@ class Importxml extends \AbstractModelNews
                 $this->id = '';
                 $this->login = (string)$value->login;
                 //собираем все лоигны из файла
-                $allLogin[] = (string)$value->login;
+                $this->allLogin[] = (string)$value->login;
                 if (isset($value->name)) {
                     $this->name = (string)$value->name;
                 } else {
@@ -79,21 +77,21 @@ class Importxml extends \AbstractModelNews
                     if (isset($this->name)) {
                         if ($objBd->name != $this->name) {
                             $this->updateXml($objBd->id, 'name', $this->name);
-                            $nameBd++;
+                            $this->nameBd++;
                         }
                     }
                     //изменение пароля в бд
                     if (isset($this->password)) {
                         if ($objBd->password != $this->password) {
                             $this->updateXml($objBd->id, 'password', $this->password);
-                            $passworsBd++;
+                            $this->passworsBd++;
                         }
                     }
                     //изменение мыла в бд
                     if (isset($this->email)) {
                         if ($objBd->email != $this->email) {
                             $this->updateXml($objBd->id, 'email', $this->email);
-                            $emailBd++;
+                            $this->emailBd++;
                         }
                     }
                 } else {
@@ -101,32 +99,32 @@ class Importxml extends \AbstractModelNews
                     $this->name = $this->login;
                     $this->email = $this->login . '@example.com';
                     $this->insert();
-                    $allBd++;
+                    $this->allBd++;
                 }
             }
             //По новой проходим файл и бд и удаляем из бд лишнии логины полсле добавление новых
-
             //получаем все данные из таблицы бд
             $allBdUser = $this->getAll();
             foreach ($allBdUser as $key => $value) {
-
-                if (in_array((string)$value->login,$allLogin)){
+                if (in_array((string)$value->login,$this->allLogin)){
                     continue;
                 } else{
                     $this->deleteXml($value->id);
-                    $delBd++;
+                    $this->delBd++;
                 }
             }
-
-            $otchet['addBd'] = $allBd;
-            $otchet['updateName'] = $nameBd;
-            $otchet['updatePassword'] = $passworsBd;
-            $otchet['updateEmail'] = $emailBd;
-            $otchet['delBd'] = $delBd;
-
         }
+        return true;
+    }
 
-        return $otchet;
+    public function getOtchet()
+    {
+        $this->otchet['addBd'] = $this->allBd;
+        $this->otchet['updateName'] = $this->nameBd;
+        $this->otchet['updatePassword'] = $this->passworsBd;
+        $this->otchet['updateEmail'] = $this->emailBd;
+        $this->otchet['delBd'] = $this->delBd;
+        return $this->otchet;
     }
 
 

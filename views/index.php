@@ -28,8 +28,6 @@ header('Content-Type: text/html; charset=utf-8');
                 </div>
                 <div>
                     <a class="btn btn-primary" role="button" href="/importxml/addform">XML данные</a>
-                    <a class="btn btn-primary" role="button" href="/news/showall">показать все
-                        новости</a>
                 </div>
             </div>
         </div>
