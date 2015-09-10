@@ -1,10 +1,8 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
 
 function __autoload($class)
 {
-
     if (file_exists(__DIR__ . '/../controllers/' . $class . '.php')) {
         require_once __DIR__ . '/../controllers/' . $class . '.php';
     } elseif (file_exists(__DIR__ . '/../models/' . $class . '.php')) {
@@ -23,9 +21,7 @@ function __autoload($class)
         if (file_exists($path)) {
             require_once $path;
         } else {
-
+            require __DIR__ . '/../vendor/autoload.php';
         }
-
     }
-
 }

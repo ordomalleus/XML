@@ -1,7 +1,5 @@
 <?php
-
 header('Content-Type: text/html; charset=utf-8');
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -24,12 +22,14 @@ header('Content-Type: text/html; charset=utf-8');
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <h1>Главная страница</h1>
+                    <p>Файл</p>
                 </div>
                 <div>
-                    <a class="btn btn-primary" role="button" href="/importxml/addform">XML данные</a>
-                    <a class="btn btn-primary" role="button" href="/news/showall">показать все
-                        новости</a>
+                    <pre>
+                    <?php
+                        print_r($xml);
+                    ?>
+                    </pre>
                 </div>
             </div>
         </div>

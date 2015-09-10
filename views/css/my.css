@@ -22,3 +22,7 @@ form#upload-file {
 a {
   margin: 10px;
 }
+
+.xml-form .panel-body{
+    padding: 10px 50px;
+}

@@ -1,7 +1,5 @@
 <?php
-
 header('Content-Type: text/html; charset=utf-8');
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -23,22 +21,19 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div>
-                    <h1>Главная страница</h1>
+                <div class="panel panel-primary xml-form">
+                    <div class="panel-heading">Загрузка XML</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" accept-charset="UTF-8"
+                              method="POST" action="/importxml/add" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="exampleInputXml">Выберете файл XML</label>
+                                <input type="file" id="exampleInputXml" name="newXml">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Начать импорт данных</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <a class="btn btn-primary" role="button" href="/importxml/addform">XML данные</a>
-                    <a class="btn btn-primary" role="button" href="/news/showall">показать все
-                        новости</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
             </div>
         </div>
     </div>
